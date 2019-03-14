@@ -25,12 +25,22 @@ print(idStr)
 ps.PowerSupply_SetVoltage(s1, 10.0)
 ps.PowerSupply_SetCurrent(s1, 1.5)
 
+ps.PowerSupply_SetVoltageProtection(s1, 33.0)
+ps.PowerSupply_SetCurrentProtection(s1, 2.0)
+
 print(ps.PowerSupply_GetVoltage(s1))
 print(ps.PowerSupply_GetCurrent(s1))
+
+ps.PowerSupply_SetDataFormat(s1, 1, 0, 0)
+
 ps.PowerSupply_SetOutputState(s1, 1)
 ps.PowerSupply_SetDisplayText(s1, "Powering On DUT...")
 print(ps.PowerSupply_GetOutputState(s1))
 time.sleep(3.0)
+
+print(ps.PowerSupply_MeasureCurrent(s1))
+print(ps.PowerSupply_MeasureVoltage(s1))
+time.sleep(1.0)
 
 ps.PowerSupply_SetOutputState(s1, 0)
 ps.PowerSupply_SetDisplayText(s1, "Powering Off DUT...")
