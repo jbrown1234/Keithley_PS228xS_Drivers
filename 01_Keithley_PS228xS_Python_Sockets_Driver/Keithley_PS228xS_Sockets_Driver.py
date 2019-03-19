@@ -106,13 +106,60 @@ def PowerSupply_SetOutputState(mySocket, myState):
 def PowerSupply_GetOutputState(mySocket):
     return instrQuery(mySocket, "OUTP:STAT?", 16)
 
+# ======================================================================
+#      DEFINE DISPLAY FUNCTIONS HERE
+# ======================================================================
 def PowerSupply_SetDisplayText(mySocket, myText):
     sndBuffer = "DISP:USER:TEXT \"{}\"".format(myText)
     instrSend(mySocket, sndBuffer)
 
 def PowerSupply_GetDisplayText(mySocket):
-    return instrQuery(mySocket, "DISP:USER:TEXT?", 32)
+    return instrQuery(mySocket, "DISP:USER:TEXT?", 42)
 
+# ======================================================================
+#      DEFINE SYSTEM FUNCTIONS HERE
+# ======================================================================
+def PowerSupply_SetFunction(activeFunc):
+    if activeFunc == 0:
+        # Set to Power Supply
+        instrSend(mySocket, ":ENTR:FUNC POW")
+    else if activeFunc == 1:
+        # Set to Battery Test
+        instrSend(mySocket, ":ENTRFUNC TEST")
+    else if activeFunc == 2:
+        # Set to Battery Simulator
+        instrSend(mySocket, ":ENTR:FUNC SIM")
+    else
+        # What should be done if the input value is invalid?
+    return
 
+# ======================================================================
+#      DEFINE BATTERY SIMULATOR FUNCTIONS HERE
+#
+#           NOTE: These functions are only applicable to the
+#                 following models:
+#
+#                 1. 2281S
+# ======================================================================
+def BatterySimulator_SetOverVoltageProtection(mySocket, vLevel):
+    sndBuffer = ":BATT:SIM:TVOL:PROT {}".format(vLevel)
+    instrSend(mySocket, sndBuffer)
+    
+def BatterySimulato_GetOverVoltageProtection(mySocket):
+    return instrQuery(mySocket, ":BATT:SIM:TVOL:PROT?", 16)
 
+def BatterySimulator_SetOverCurrentProtection(mySocket, vLevel):
+    sndBuffer = ":BATT:SIM:CURR:PROT {}".format(vLevel)
+    instrSend(mySocket, sndBuffer)
+    
+def BatterySimulato_GetOverCurrentProtection(mySocket):
+    return instrQuery(mySocket, ":BATT:SIM:CURR:PROT?", 16)
 
+# ======================================================================
+#      DEFINE BATTERY TEST FUNCTIONS HERE
+#
+#           NOTE: These functions are only applicable to the
+#                 following models:
+#
+#                 1. 2281S
+# ======================================================================
